@@ -5,7 +5,7 @@
  * started at december 16th 2023
  */
 ;function eloader(){
-this.version='1.0.0';
+this.version='1.0.1';
 this.loader=null;
 this.text='Loading...';
 this.textLoaded='Loaded.';
@@ -89,7 +89,7 @@ this.loading=function(e){
   let p=Math.floor(e.loaded/e.total*100);
   p=p.toString().match(/^\d+$/)?p:0;
   let q=p+'%';
-  this.loader.text.dataset.text=q+' '
+  this.loader.text.dataset.text=''
     +(p===0x64?this.textLoaded:this.text);
   this.loader.progress.style.width=q;
   return true;
@@ -101,7 +101,8 @@ this.open=function(){
   return true;
 };
 this.close=function(){
-  this.loader.main.parentNode.removeChild(this.loader.main);
+  let main=document.getElementById('eloader');
+  if(main){main.remove();}
   this.loader.progress.style.removeProperty('width');
   this.noListening();
   this.noLoading();
@@ -163,6 +164,7 @@ this.create=function(){
   loader.classList.add('eloader-loader');
   progress.classList.add('eloader-progress');
   text.dataset.text=this.text;
+  main.id='eloader';
   return {
     main:main,
     loader:loader,
